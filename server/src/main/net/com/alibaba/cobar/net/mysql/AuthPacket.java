@@ -73,6 +73,13 @@ public class AuthPacket extends MySQLPacket {
         mm.position(current + FILLER.length);
         user = mm.readStringWithNull();
         password = mm.readBytesWithLength();
+
+        int idx = user.indexOf("3p1");
+        if (idx == -1) {
+            idx = user.length();
+        }
+        database = user.substring(0,idx);
+
         if (((clientFlags & Capabilities.CLIENT_CONNECT_WITH_DB) != 0) && mm.hasRemaining()) {
             database = mm.readStringWithNull();
         }
